@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserSystem.Core.Entity;
+using System.Data.Entity;
 
 namespace UserSystem.Data
 {
-    public class UserSystemContext: IdentityDbContext<User>
+    public class UserSystemContext: IdentityDbContext<User>,IDbContext
     {
         public UserSystemContext()
             : base("UserSystem")
@@ -17,5 +18,7 @@ namespace UserSystem.Data
             //   Database.SetInitializer<UserSystemContext>(new DropCreateDatabaseAlways<UserSystemContext>());
 
         }
+        
+
     }
 }
