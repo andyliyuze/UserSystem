@@ -14,8 +14,7 @@ using Autofac.Integration.WebApi;
 using System.Reflection;
 using CommonServiceLocator;
 using Autofac.Extras.CommonServiceLocator;
-
- 
+using System.Web.Http.Dependencies;
 
 namespace UserSystem.AuthorizationServer
 {
@@ -56,8 +55,8 @@ namespace UserSystem.AuthorizationServer
 
 
         static void ConfigureOAuth(IAppBuilder app)
-        {  
-
+        {
+             
             OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
                 //For Dev enviroment only (on production should be AllowInsecureHttp = false)

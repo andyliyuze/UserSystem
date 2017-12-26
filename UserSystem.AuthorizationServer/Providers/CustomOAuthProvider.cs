@@ -11,6 +11,10 @@ using UserSystem.Application.UserService;
 using Autofac;
 using System.Web.Http.Dependencies;
 using CommonServiceLocator;
+using Microsoft.AspNet.Identity;
+using UserSystem.Core.Entity;
+using UserSystem.Data;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace UserSystem.AuthorizationServer.Providers
 {
@@ -39,11 +43,19 @@ namespace UserSystem.AuthorizationServer.Providers
             return Task.FromResult<object>(null);
         }
 
-        public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
+        public   override    Task  GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
 
-          var   _userAppService = ServiceLocator.Current.GetInstance<IUserAppService>();
-            _userAppService.FindUser("ada");
+            var dbcontext = ServiceLocator.Current.GetInstance<UserSystemContext>();
+            var users = dbcontext.Users.ToList();
+            //var   _userAppService = ServiceLocator.Current.GetInstance<IUserAppService>();
+            var store = ServiceLocator.Current.GetInstance<IUserStore<IdentityUser>>();
+            var _userManger = ServiceLocator.Current.GetInstance<UserManager<IdentityUser>>();
+           var aa= store.FindByIdAsync("525f9c96-b818-451a-a961-303b73875cc4").Result;
+            //var user=      _userAppService.FindUser("525f9c96-b818-451a-a961-303b73875cc4").Result;
+            var list = _userManger.Users.ToList();
+          var result=   _userManger.CreateAsync(new IdentityUser() { Id = Guid.NewGuid().ToString(), UserName = "Andy2"},"123456").Result;
+            var oo = _userManger.FindById("525f9c96-b818-451a-a961-303b73875cc4");
             //context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
 
             //Dummy check here, you need to do your DB checks against membership system http://bit.ly/SPAAuthCode
@@ -64,8 +76,7 @@ namespace UserSystem.AuthorizationServer.Providers
             var props = new AuthenticationProperties(new Dictionary<string, string>
                 {
                     {
-                         "audience", (context.ClientId == null) ? string.Empty : context.ClientId
-                    }
+                         "audience", context.ClientId ??string.Empty                     }
                 });
 
             var ticket = new AuthenticationTicket(identity, props);

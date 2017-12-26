@@ -10,9 +10,9 @@ using UserSystem.Core.Entity;
 namespace UserSystem.Data
 {
     //表示数据仓储的接口
-    public interface IDbContext 
+    public interface IDbContext<TUser> where TUser:class
     {
-        IDbSet<User> Users { get; set; }
+        IDbSet<TUser> Users { get; set; }
 
         DbSet Set(Type entityType);
         DbSet<TEntity> Set<TEntity>() where TEntity : class;

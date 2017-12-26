@@ -11,29 +11,27 @@ namespace UserSystem.Data.Repository
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IDbContext _dbContext;
+        private readonly UserSystemContext  _dbContext;
 
-        private readonly UserManager<User> _userManager;
-        public UserRepository(IUnitOfWork unitOfWork, IDbContext dbContext )
+        private readonly UserManager<IdentityUser> _userManager;
+        public UserRepository(IUnitOfWork unitOfWork, UserManager<IdentityUser> userManager)
         {
             _unitOfWork = unitOfWork;
-            _dbContext = dbContext;
-          
+            _userManager = userManager;
         }
-       
+
         public async Task<string> Add(User user)
         {
-            _dbContext.Users.Add(user);
-            await _unitOfWork.CommitAsync();
+            await _userManager.CreateAsync(user);
             return user.Id;
         }
 
         public async Task<User> FindUser(string Id)
         {
-            return await Task.Run<User>(() =>
-             {
-                 return _dbContext.Users.Find(Id);
-             });
+            var user = await _userManager.FindByIdAsync(Id);
+            return null;
         }
+
+        
     }
 }

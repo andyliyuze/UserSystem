@@ -19,21 +19,18 @@ namespace UserSystem.AuthorizationServer.App_Start
         
         public static void RegisterServices(ContainerBuilder builder)
         {
-            builder.RegisterType<UserSystemContext>().AsSelf().SingleInstance();
-            builder.RegisterType<UserStore<User>>().As<IUserStore<User>>().SingleInstance();
-            builder.RegisterType<UserManager<User>>().AsSelf().SingleInstance();
-
-            builder.RegisterType<UserSystemContext>().As<IDbContext>().SingleInstance();
-            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().SingleInstance();
-
-           
-
-            builder.RegisterType<UserAppService>().As<IUserAppService>().SingleInstance();
-
-            builder.RegisterType<UserRepository>().As<IUserRepository>().SingleInstance();
-
-
+            builder.RegisterType<UserSystemContext>();
+            //使用构造函数配置
+            //builder.RegisterType<UserStore<IdentityUser>>().As<IUserStore<IdentityUser>>();
+            builder.Register(c=>new UserStore<IdentityUser>(c.Resolve<UserSystemContext>())).As<IUserStore<IdentityUser>>();
+            //使用构造函数配置
+            builder.RegisterType<UserManager<IdentityUser>>().UsingConstructor(typeof(IUserStore<IdentityUser>));
          
+
+
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
+            builder.RegisterType<UserAppService>().As<IUserAppService>();
+            builder.RegisterType<UserRepository>().As<IUserRepository>();
 
         }
     }

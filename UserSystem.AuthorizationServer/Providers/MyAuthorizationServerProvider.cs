@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extras.CommonServiceLocator;
 using CommonServiceLocator;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using System;
@@ -9,15 +10,18 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using UserSystem.Application.UserService;
+using UserSystem.Core.Entity;
 
 namespace UserSystem.AuthorizationServer.Providers
 {
     public class MyAuthorizationServerProvider: OAuthAuthorizationServerProvider
     {
         private readonly IUserAppService _userAppService;
-        public MyAuthorizationServerProvider(IUserAppService userAppService)
+        private readonly UserManager<User> _userManager;
+        public MyAuthorizationServerProvider(IUserAppService userAppService, UserManager<User> userManager)
         {
             _userAppService = userAppService;
+            _userManager = userManager;
         }
 
         //验证客户端(第三方应用)身份 
@@ -66,17 +70,17 @@ namespace UserSystem.AuthorizationServer.Providers
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
 
-       
 
-                   var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin");
+
+            var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin");
 
             if (allowedOrigin == null) allowedOrigin = "*";
 
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
 
-         var user =await   _userAppService.FindUser(context.UserName);
-
-              var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+            var user = await _userAppService.FindUser(context.UserName);
+              var o=           await  _userManager.FindAsync("adw","dawd");
+            var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
             identity.AddClaim(new Claim(ClaimTypes.Role, "user"));
             identity.AddClaim(new Claim("sub", context.UserName));
