@@ -25,9 +25,7 @@ namespace UserSystem.AuthorizationServer.App_Start
             builder.Register(c=>new UserStore<IdentityUser>(c.Resolve<UserSystemContext>())).As<IUserStore<IdentityUser>>();
             //使用构造函数配置
             builder.RegisterType<UserManager<IdentityUser>>().UsingConstructor(typeof(IUserStore<IdentityUser>));
-         
-
-
+        
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
             builder.RegisterType<UserAppService>().As<IUserAppService>();
             builder.RegisterType<UserRepository>().As<IUserRepository>();
