@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace UserSystem.AuthorizationServer
 {
-    class Program
+   internal class Program
     {
-        static void Main(string[] args)
+         static void Main(string[] args)
         {
             const string uri = "http://localhost:40048/";
             //
-            using (WebApp.Start(uri, Startup.Configuration))
+            using (WebApp.Start<Startup>(uri))
             {
                 Console.WriteLine("Started listening on " + uri);
                 Console.ReadLine();

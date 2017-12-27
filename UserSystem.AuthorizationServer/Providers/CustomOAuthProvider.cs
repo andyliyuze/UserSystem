@@ -38,12 +38,12 @@ namespace UserSystem.AuthorizationServer.Providers
                 context.SetError("invalid_clientId", "client_Id is not set");
                 return Task.FromResult<object>(null);
             }
-     
+
             context.Validated();
             return Task.FromResult<object>(null);
         }
 
-        public   override    Task  GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
+        public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
 
             var dbcontext = ServiceLocator.Current.GetInstance<UserSystemContext>();
@@ -51,10 +51,10 @@ namespace UserSystem.AuthorizationServer.Providers
             //var   _userAppService = ServiceLocator.Current.GetInstance<IUserAppService>();
             var store = ServiceLocator.Current.GetInstance<IUserStore<IdentityUser>>();
             var _userManger = ServiceLocator.Current.GetInstance<UserManager<IdentityUser>>();
-           var aa= store.FindByIdAsync("525f9c96-b818-451a-a961-303b73875cc4").Result;
+            var aa = store.FindByIdAsync("525f9c96-b818-451a-a961-303b73875cc4").Result;
             //var user=      _userAppService.FindUser("525f9c96-b818-451a-a961-303b73875cc4").Result;
             var list = _userManger.Users.ToList();
-          var result=   _userManger.CreateAsync(new IdentityUser() { Id = Guid.NewGuid().ToString(), UserName = "Andy2"},"123456").Result;
+            var result = _userManger.CreateAsync(new IdentityUser() { Id = Guid.NewGuid().ToString(), UserName = "Andy2" }, "123456").Result;
             var oo = _userManger.FindById("525f9c96-b818-451a-a961-303b73875cc4");
             //context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
 

@@ -5,6 +5,7 @@ using UserSystem.Application.DTO;
 using UserSystem.Core.Repository;
 using UserSystem.Core.Entity;
 using Microsoft.AspNet.Identity;
+using CommonServiceLocator;
 
 namespace UserSystem.Application.UserService
 {
@@ -14,7 +15,9 @@ namespace UserSystem.Application.UserService
        
         public UserAppService(IUserRepository userRepository)
         {
+        //    var re = ServiceLocator.Current.GetInstance<IUserRepository>();
             _userRepository = userRepository;
+        //    var f = ReferenceEquals(re, _userRepository);
         }
         public async Task<string> Register(UserInput userInput)
         {

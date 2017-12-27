@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -11,11 +12,13 @@ namespace UserSystem.Data
 
     public class UnitOfWork : IUnitOfWork
     {
-        private IDbContext<User> _dbContext;
+        private UserSystemContext _dbContext;
 
-        public UnitOfWork(IDbContext<User> dbContext)
+        public UnitOfWork(UserSystemContext dbContext)
         {
+           // var re = ServiceLocator.Current.GetInstance<UserSystemContext>();
             _dbContext = dbContext;
+          // var g = ReferenceEquals(re, _dbContext);
         }
 
         public void RegisterNew<TEntity>(TEntity entity) where TEntity : class

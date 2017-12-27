@@ -15,12 +15,13 @@ using System.Reflection;
 using CommonServiceLocator;
 using Autofac.Extras.CommonServiceLocator;
 using System.Web.Http.Dependencies;
+using UserSystem.Data;
 
 namespace UserSystem.AuthorizationServer
 {
     public  class Startup
     {
-        public static  void Configuration(IAppBuilder app)
+        public   void Configuration(IAppBuilder app)
         {
 
             var config = new HttpConfiguration();
@@ -28,33 +29,41 @@ namespace UserSystem.AuthorizationServer
             //先注册autofac
             var builder = new ContainerBuilder();
             // Register dependencies, then...
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
             AutofacConfig.RegisterServices(builder);
+           
             var container = builder.Build();
 
-           
+            ServiceLocator.SetLocatorProvider(() =>
+            {
+                return new AutofacServiceLocator(container);
+            });
+
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+    
             // Register the Autofac middleware FIRST. This also adds
             // Autofac-injected middleware registered with the container.
-            app.UseAutofacMiddleware(container);
-
-            var csl = new AutofacServiceLocator(container);
-            ServiceLocator.SetLocatorProvider(() => csl);
-
-            //builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-
-         //   config.DependencyResolver = new AutofacWebApiDependencyResolver(container); 
-            
-            WebApiConfig.Register(config);
-        
-            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-            
             ConfigureOAuth(app);
 
+            app.UseAutofacMiddleware(container);
+
+            WebApiConfig.Register(config);
+
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+            app.UseAutofacWebApi(config);
             app.UseWebApi(config);
         }
 
+        public T GetPrivateField<T>(object instance, string fieldname)
+        {
+            BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic;
+            Type type = instance.GetType();
+            FieldInfo field = type.GetField(fieldname, flag);
+            return (T)field.GetValue(instance);
+        }
 
-
-        static void ConfigureOAuth(IAppBuilder app)
+        private  void ConfigureOAuth(IAppBuilder app)
         {
              
             OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
