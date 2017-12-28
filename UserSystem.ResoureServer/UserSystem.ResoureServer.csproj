@@ -137,6 +137,10 @@
       <Project>{6b4c933b-3f4c-4148-8a1b-003a918be1de}</Project>
       <Name>UserSystem.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UserSystem.Infrastructure\UserSystem.Infrastructure.csproj">
+      <Project>{FF91899D-AFA9-460C-9CBF-107B1F8936F5}</Project>
+      <Name>UserSystem.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
