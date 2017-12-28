@@ -16,25 +16,25 @@ namespace UserSystem.ResoureServer.Controller
     public class UserController : ApiController
     {
         private readonly IUserAppService _userAppService;
+        private readonly WebApiResponseHelper _apiHelper;
         public UserController(IUserAppService userAppService)
         {
             _userAppService = userAppService;
+            _apiHelper = new WebApiResponseHelper();
         }
         public string Get()
         {
             return "value";
         }
 
+        [HttpPost]
         [AllowAnonymous]
         public async Task<HttpResponseMessage> Register(HttpRequestMessage request, UserInput userInput)
         {
-
-            return  WebApiResponseHelper.CreateHttpResponse<string>(request,
-                () => 
-                {
-                    var Id = await _userAppService.Register(userInput);
-                    return Id;
-                });
+            return await _apiHelper.CreateHttpResponse<string>(request, () =>
+           {
+               return _userAppService.Register(userInput);
+           });
         }
     }
 }

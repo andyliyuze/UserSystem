@@ -1,12 +1,10 @@
 ﻿using System.Threading.Tasks;
 using UserSystem.Core.Entity;
-using UserSystem.Core.Repository;
 using System.Data.Entity;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Linq.Expressions;
 using System.Security.Claims;
+using UserSystem.Core.Repository;
 
 namespace UserSystem.Data.Repository
 {
@@ -21,9 +19,9 @@ namespace UserSystem.Data.Repository
             _userManager = userManager;
         }
 
-        public async Task<string> Add(User user)
+        public async Task<string> Register(User user , string password)
         {
-            await _userManager.CreateAsync(user);
+            await _userManager.CreateAsync(user, password);
             return user.Id;
         }
 
@@ -53,5 +51,7 @@ namespace UserSystem.Data.Repository
             var user = await _userManager.FindAsync(userName, passWord);          
             return user;
         }
+
+
     }
 }

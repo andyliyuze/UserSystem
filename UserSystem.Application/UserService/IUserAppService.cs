@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using UserSystem.Application.DTO;
 namespace UserSystem.Application.UserService
 {
-   public interface IUserAppService
+    public interface IUserAppService
     {
         Task<string> Register(UserInput userInput);
 
@@ -19,9 +19,7 @@ namespace UserSystem.Application.UserService
         /// <param name="userName">用户名</param>
         /// <param name="password">密码</param>
         /// <returns></returns>
-        Task<UserOutput> FindUser(string userName , string password);
-
-
+        Task<UserOutput> FindUser(string userName, string password);
 
         /// <summary>
         /// 尝试登录并返回声明标识

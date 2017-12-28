@@ -12,10 +12,7 @@ namespace UserSystem.ResoureServer.Attribute
     {
         public override void OnAuthorization(HttpActionContext actionContext)
         {
-            var pri = actionContext.RequestContext.Principal as ClaimsPrincipal;
-            var list = pri.Claims.ToList();
-            var user = Users;
-            var roles = Roles;
+          
 
             base.OnAuthorization(actionContext);
         }

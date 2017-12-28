@@ -115,6 +115,7 @@
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attribute\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Controller\BaseApiController.cs" />
     <Compile Include="Controller\UserController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

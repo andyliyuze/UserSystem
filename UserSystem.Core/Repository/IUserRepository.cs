@@ -9,15 +9,15 @@ using UserSystem.Core.Entity;
 
 namespace UserSystem.Core.Repository
 {
-   public interface IUserRepository
+    public interface IUserRepository
     {
-        Task<string> Add(User user);
+        Task<string> Register(User user, string password);
 
         Task<User> FindUser(string Id);
 
         Task<User> FindUser(Expression<Func<User, bool>> condition);
 
-        Task<User> FindUser(string userName , string passWord);
+        Task<User> FindUser(string userName, string passWord);
 
         Task<ClaimsIdentity> CreateClaimsIdentity(User user, string authenticationType);
     }

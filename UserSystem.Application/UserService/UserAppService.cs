@@ -7,6 +7,8 @@ using UserSystem.Core.Entity;
 using Microsoft.AspNet.Identity;
 using CommonServiceLocator;
 using System.Security.Claims;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace UserSystem.Application.UserService
 {
@@ -26,7 +28,7 @@ namespace UserSystem.Application.UserService
         public async Task<string> Register(UserInput userInput)
         {
             var user = Mapper.Map<User>(userInput);
-            return await _userRepository.Add(user);
+            return await _userRepository.Register(user, userInput.Password);
         }
 
         public async Task<UserOutput> FindUser(string Id)
@@ -57,11 +59,17 @@ namespace UserSystem.Application.UserService
             {
                 throw new ArgumentNullException("用户名或密码不可为空");
             }
+
             var user = await _userRepository.FindUser(userName, password);
+            var userInfo = Mapper.Map<UserOutput>(user);
 
             if (user == null) { return null; }
             
-            return await _userRepository.CreateClaimsIdentity(user, authenticationType);
+            var identity = await _userRepository.CreateClaimsIdentity(user, authenticationType);
+            identity.AddClaim(new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(userInfo)));          
+            identity.AddClaims(user.Claims.Where(a => a.ClaimType == "Role"));
+
+            return identity;
         }
     }
 }

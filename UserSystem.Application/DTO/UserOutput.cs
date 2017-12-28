@@ -12,6 +12,6 @@ namespace UserSystem.Application.DTO
 
         public string UserName { get; set; }
 
-        public   ICollection<UserClaimDTO> Claims { get; }
+        public DateTime? BirthDay { get; set; }
     }
 }
