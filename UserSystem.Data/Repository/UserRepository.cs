@@ -4,6 +4,9 @@ using UserSystem.Core.Repository;
 using System.Data.Entity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using System.Linq.Expressions;
+using System.Security.Claims;
 
 namespace UserSystem.Data.Repository
 {
@@ -11,10 +14,8 @@ namespace UserSystem.Data.Repository
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly UserSystemContext  _dbContext;
-
-        private readonly UserManager<IdentityUser> _userManager;
-        public UserRepository(IUnitOfWork unitOfWork, UserManager<IdentityUser> userManager)
+        private readonly CustomUserManager _userManager;
+        public UserRepository(IUnitOfWork unitOfWork, CustomUserManager userManager)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
@@ -26,12 +27,31 @@ namespace UserSystem.Data.Repository
             return user.Id;
         }
 
+        public async Task<ClaimsIdentity> CreateClaimsIdentity(User user, string authenticationType)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException("user不用为空");
+            }
+            return await _userManager.CreateIdentityAsync(user, authenticationType);
+        }
+
         public async Task<User> FindUser(string Id)
         {
             var user = await _userManager.FindByIdAsync(Id);
-            return null;
+            return user;
         }
 
-        
+        public async Task<User> FindUser(Expression<Func<User, bool>> condition)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(condition);
+            return user;
+        }
+
+        public async Task<User> FindUser(string userName, string passWord)
+        {
+            var user = await _userManager.FindAsync(userName, passWord);          
+            return user;
+        }
     }
 }

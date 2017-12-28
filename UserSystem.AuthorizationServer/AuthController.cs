@@ -28,23 +28,7 @@ namespace UserSystem.AuthorizationServer
         [Route("get")]
         [HttpGet]
         public string Get()
-        {
-         
-           var dbcontext = ServiceLocator.Current.GetInstance<UserSystemContext>();
-
-           
-
-            //var db2 = ServiceLocator.Current.GetInstance<UserSystemContext>();
-
-            //var service = ServiceLocator.Current.GetInstance<IUserAppService>();
-
-            //var service2 = ServiceLocator.Current.GetInstance<IUserAppService>();
-
-            _userAppService.FindUser("adaw");
-            //var go = ReferenceEquals(db2, dbcontext);
-            //var dot = ReferenceEquals(_userAppService, service);
-            //var dod = ReferenceEquals(service2, service);
-            var doc = ReferenceEquals(_userAppService, _userAppService2);
+        {           
             return "Hello, world!";
         }
         public   T GetPrivateField<T>(object instance, string fieldname)

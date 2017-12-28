@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace UserSystem.Application.DTO
 {
-    public class UserOutput
+    public class UserClaimDTO
     {
-        public string Id { get; set; }
+        public string ClaimType { get; set; }
 
-        public string UserName { get; set; }
-
-        public   ICollection<UserClaimDTO> Claims { get; }
+        public string ClaimValue { get; set; }
     }
 }

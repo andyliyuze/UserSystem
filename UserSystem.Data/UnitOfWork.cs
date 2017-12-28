@@ -16,9 +16,7 @@ namespace UserSystem.Data
 
         public UnitOfWork(UserSystemContext dbContext)
         {
-           // var re = ServiceLocator.Current.GetInstance<UserSystemContext>();
             _dbContext = dbContext;
-          // var g = ReferenceEquals(re, _dbContext);
         }
 
         public void RegisterNew<TEntity>(TEntity entity) where TEntity : class

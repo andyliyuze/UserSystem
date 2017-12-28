@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using UserSystem.Application.UserService;
+using UserSystem.Core.Entity;
 using UserSystem.Core.Repository;
 using UserSystem.Data;
 using UserSystem.Data.Repository;
@@ -9,21 +9,22 @@ using UserSystem.Data.Repository;
 namespace UserSystem.AuthorizationServer.App_Start
 {
     public class AutofacConfig
-    {
-        
+    {    
         public static void RegisterServices(ContainerBuilder builder)
         {
-            builder.RegisterType<UserSystemContext>().InstancePerRequest();
+            builder.RegisterType<UserSystemContext>().InstancePerLifetimeScope();
             //使用构造函数配置
-            builder.Register(c=>new UserStore<IdentityUser>(c.Resolve<UserSystemContext>())).As<IUserStore<IdentityUser>>().InstancePerRequest();
+            builder.Register(c=>new CustomUserStore(c.Resolve<UserSystemContext>())).As<IUserStore<User>>().InstancePerLifetimeScope();
             //使用构造函数配置
-            builder.RegisterType<UserManager<IdentityUser>>().UsingConstructor(typeof(IUserStore<IdentityUser>)).InstancePerRequest();
-        
-            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
-          
-            builder.RegisterType<UserAppService>().As<IUserAppService>().InstancePerRequest(); 
+          //  builder.Register(c => new CustomUserManager(c.Resolve<CustomUserStore>())).InstancePerLifetimeScope();
 
-            builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerRequest(); 
+            builder.RegisterType<CustomUserManager>().UsingConstructor(typeof(IUserStore<User>)).InstancePerLifetimeScope();
+        
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
+          
+            builder.RegisterType<UserAppService>().As<IUserAppService>().InstancePerLifetimeScope(); 
+
+            builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope(); 
 
         }
     }

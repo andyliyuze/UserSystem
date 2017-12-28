@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
 using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using UserSystem.AuthorizationServer.Providers;
 using UserSystem.AuthorizationServer.Formats;
-using UserSystem.AuthorizationServer.API;
 using Autofac;
 using UserSystem.AuthorizationServer.App_Start;
-using UserSystem.Application.UserService;
 using Autofac.Integration.WebApi;
 using System.Reflection;
 using CommonServiceLocator;
 using Autofac.Extras.CommonServiceLocator;
-using System.Web.Http.Dependencies;
-using UserSystem.Data;
 
 namespace UserSystem.AuthorizationServer
 {
@@ -32,7 +27,7 @@ namespace UserSystem.AuthorizationServer
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             AutofacConfig.RegisterServices(builder);
-           
+
             var container = builder.Build();
 
             ServiceLocator.SetLocatorProvider(() =>
@@ -41,7 +36,7 @@ namespace UserSystem.AuthorizationServer
             });
 
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
-    
+
             // Register the Autofac middleware FIRST. This also adds
             // Autofac-injected middleware registered with the container.
             ConfigureOAuth(app);
@@ -49,19 +44,13 @@ namespace UserSystem.AuthorizationServer
             app.UseAutofacMiddleware(container);
 
             WebApiConfig.Register(config);
+            AutoMapperConfig.Register();
 
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseAutofacWebApi(config);
             app.UseWebApi(config);
         }
-
-        public T GetPrivateField<T>(object instance, string fieldname)
-        {
-            BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic;
-            Type type = instance.GetType();
-            FieldInfo field = type.GetField(fieldname, flag);
-            return (T)field.GetValue(instance);
-        }
+     
 
         private  void ConfigureOAuth(IAppBuilder app)
         {

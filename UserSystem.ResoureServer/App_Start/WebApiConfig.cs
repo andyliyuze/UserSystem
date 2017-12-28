@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 
-namespace UserSystem.AuthorizationServer.App_Start
+namespace UserSystem.ResoureServer.App_Start
 {
     public static class WebApiConfig
     {
