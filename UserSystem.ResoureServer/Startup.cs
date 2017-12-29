@@ -44,8 +44,17 @@ namespace UserSystem.ResoureServer
 
         public void ConfigureOAuth(IAppBuilder app)
         {
+            //显然如果颁发JWT的issuer，这里的issuer不一致的话
+            //也是无法通过验证
             var issuer = "http://jwtauthzsrv.azurewebsites.net";
+
+            //显然如果颁发JWT的audience，这里的aud不一致的话
+            //也是无法通过验证
             var audience = "ngAuthApp";
+
+            
+            //显然如果颁发JWT的加密秘钥，与解密秘钥不一致的话，是无法进行JWT解密
+            //从而无法通过验证
             var secret = TextEncodings.Base64Url.Decode("IxrAjDoa2FqElO7IhrSrUJELhUckePEPVpaePlS_Xaw");
 
             // Api controllers with an [Authorize] attribute will be validated with JWT

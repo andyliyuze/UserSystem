@@ -13,7 +13,7 @@ using UserSystem.ResoureServer.Attribute;
 namespace UserSystem.ResoureServer.Controller
 {
     [CustomAuthorize]
-    public class UserController : ApiController
+    public class UserController : BaseApiController
     {
         private readonly IUserAppService _userAppService;
         private readonly WebApiResponseHelper _apiHelper;
@@ -22,8 +22,12 @@ namespace UserSystem.ResoureServer.Controller
             _userAppService = userAppService;
             _apiHelper = new WebApiResponseHelper();
         }
+
+        [CustomAuthorize(Roles = "User")]
         public string Get()
         {
+            
+            var user = UserInfo;
             return "value";
         }
 

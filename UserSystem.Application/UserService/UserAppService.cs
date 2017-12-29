@@ -9,6 +9,8 @@ using CommonServiceLocator;
 using System.Security.Claims;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace UserSystem.Application.UserService
 {
@@ -66,8 +68,13 @@ namespace UserSystem.Application.UserService
             if (user == null) { return null; }
             
             var identity = await _userRepository.CreateClaimsIdentity(user, authenticationType);
-            identity.AddClaim(new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(userInfo)));          
-            identity.AddClaims(user.Claims.Where(a => a.ClaimType == "Role"));
+
+            var identitysCliams = user.Claims.Where(a => a.ClaimType == ClaimTypes.Role).ToList();
+            var claims = Mapper.Map<IEnumerable<Claim>>(identitysCliams);
+                       
+            identity.AddClaim(new Claim(ClaimTypes.Role, JsonConvert.SerializeObject(userInfo)));
+            
+            //identity.AddClaims(claims);
 
             return identity;
         }

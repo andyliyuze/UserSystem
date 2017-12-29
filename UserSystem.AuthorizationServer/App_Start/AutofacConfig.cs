@@ -16,7 +16,7 @@ namespace UserSystem.AuthorizationServer.App_Start
             //使用构造函数配置
             builder.Register(c=>new CustomUserStore(c.Resolve<UserSystemContext>())).As<IUserStore<User>>().InstancePerLifetimeScope();
             //使用构造函数配置
-          //  builder.Register(c => new CustomUserManager(c.Resolve<CustomUserStore>())).InstancePerLifetimeScope();
+            //builder.Register(c => new CustomUserManager(c.Resolve<CustomUserStore>())).InstancePerLifetimeScope();
 
             builder.RegisterType<CustomUserManager>().UsingConstructor(typeof(IUserStore<User>)).InstancePerLifetimeScope();
         

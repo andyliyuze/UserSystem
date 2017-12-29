@@ -1,17 +1,21 @@
-﻿using System.Linq;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web.Http;
-using Newtonsoft.Json;
 using UserSystem.Application.DTO;
 
 namespace UserSystem.ResoureServer.Controller
 {
-
     public class BaseApiController : ApiController
-    { 
+    {
         public BaseApiController()
-        {           
+        {
             var identity = User.Identity as ClaimsIdentity;
+         
         }
 
         /// <summary>
@@ -36,6 +40,4 @@ namespace UserSystem.ResoureServer.Controller
         }
 
     }
-
-    
 }
