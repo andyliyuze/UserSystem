@@ -28,7 +28,7 @@ namespace UserSystem.Infrastructure
 
             return Bus.Factory.CreateUsingRabbitMq(sbc =>
             {
-                var host = sbc.Host(new Uri("rabbitmq://localhost"), h =>
+                var host = sbc.Host("localhost","userSystem", h =>
                 {
                     h.Username("guest");
                     h.Password("guest");

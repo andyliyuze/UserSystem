@@ -31,8 +31,6 @@ namespace UserSystem.Infrastructure
         }
     }
     
-
-
     public enum WebApiStateCode
     {
         Success,
