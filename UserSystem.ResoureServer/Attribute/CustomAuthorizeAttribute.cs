@@ -13,7 +13,7 @@ namespace UserSystem.ResoureServer.Attribute
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             //这里的Roles是指Action设置的Roles，而不是上下文获取到的Roles
-            var f = actionContext.RequestContext.Principal.IsInRole("Manger");
+            var f = actionContext.RequestContext.Principal.IsInRole(Roles);
             var role = Roles;
             base.OnAuthorization(actionContext);
         }
