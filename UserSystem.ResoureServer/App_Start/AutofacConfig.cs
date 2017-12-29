@@ -6,7 +6,8 @@ using UserSystem.Core.Entity;
 using UserSystem.Core.Repository;
 using UserSystem.Data;
 using UserSystem.Data.Repository;
-
+using UserSystem.Infrastructure;
+using MassTransit;
 namespace UserSystem.ResoureServer.App_Start
 {
     public class AutofacConfig
@@ -25,7 +26,12 @@ namespace UserSystem.ResoureServer.App_Start
           
             builder.RegisterType<UserAppService>().As<IUserAppService>().InstancePerRequest(); 
 
-            builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerRequest(); 
+            builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerRequest();
+
+            builder.Register<IBusControl>(c => BusInitializer.CreateBus())
+            .As<IBusControl>()
+            .As<IPublishEndpoint>()
+            .SingleInstance();
         }
     }
 }

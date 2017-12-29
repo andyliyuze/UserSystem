@@ -11,6 +11,10 @@ using Microsoft.Owin.Security.DataHandler.Encoder;
 using Microsoft.Owin.Security.Jwt;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
+using MassTransit;
+using MassTransit.Util;
+using System.Threading;
+using Microsoft.Owin.BuilderProperties;
 
 [assembly: OwinStartup(typeof(UserSystem.ResoureServer.Startup))]
 
@@ -34,12 +38,16 @@ namespace UserSystem.ResoureServer
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
                     
             WebApiConfig.Register(config);
+
             AutoMapperConfig.Register();
 
             ConfigureOAuth(app);
 
+            BusInit(app, container);
+
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
+
         }
 
         public void ConfigureOAuth(IAppBuilder app)
@@ -68,6 +76,23 @@ namespace UserSystem.ResoureServer
                         new SymmetricKeyIssuerSecurityTokenProvider(issuer, secret)
                     }
                 });
+        }
+
+
+
+        public void BusInit(IAppBuilder app , IContainer container)
+        {
+            //启动bus
+            var bus = container.Resolve<IBusControl>();
+            var busHandle = TaskUtil.Await(() => bus.StartAsync());
+
+            //当app stop时，bus销毁
+            var properties = new AppProperties(app.Properties);
+
+            if (properties.OnAppDisposing != CancellationToken.None)
+            {
+                properties.OnAppDisposing.Register(() => busHandle.Stop(TimeSpan.FromSeconds(30)));
+            }
         }
     }
 }

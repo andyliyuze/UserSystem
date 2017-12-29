@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MassTransit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -9,6 +10,7 @@ using UserSystem.Application.DTO;
 using UserSystem.Application.UserService;
 using UserSystem.Infrastructure;
 using UserSystem.ResoureServer.Attribute;
+using UserSystem.ResoureServer.Model;
 
 namespace UserSystem.ResoureServer.Controller
 {
@@ -17,16 +19,17 @@ namespace UserSystem.ResoureServer.Controller
     {
         private readonly IUserAppService _userAppService;
         private readonly WebApiResponseHelper _apiHelper;
-        public UserController(IUserAppService userAppService)
+        private readonly IPublishEndpoint _publishEndpoint;
+        public UserController(IUserAppService userAppService , IPublishEndpoint publishEndpoint)
         {
             _userAppService = userAppService;
             _apiHelper = new WebApiResponseHelper();
+            _publishEndpoint = publishEndpoint;
         }
 
         [CustomAuthorize(Roles = "User")]
         public string Get()
-        {
-            
+        {      
             var user = UserInfo;
             return "value";
         }
@@ -35,9 +38,14 @@ namespace UserSystem.ResoureServer.Controller
         [AllowAnonymous]
         public async Task<HttpResponseMessage> Register(HttpRequestMessage request, UserInput userInput)
         {
-            return await _apiHelper.CreateHttpResponse<string>(request, () =>
+            return  await _apiHelper.CreateHttpResponse<string>(request, async () =>
            {
-               return _userAppService.Register(userInput);
+               var Id = await _userAppService.Register(userInput);
+               if (!string.IsNullOrWhiteSpace(Id))
+               {
+                   var f = _publishEndpoint.Publish<UserRegisted>(new { Id = Id, UserName = userInput.UserName }).IsFaulted;
+               }
+               return Id;
            });
         }
     }
