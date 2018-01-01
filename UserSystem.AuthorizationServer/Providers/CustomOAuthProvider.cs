@@ -47,6 +47,7 @@ namespace UserSystem.AuthorizationServer.Providers
 
             try
             {
+               
                 var identity = await service.TryLogin(context.UserName, context.Password, "JWT");
 
                 if (identity == null)
@@ -69,6 +70,18 @@ namespace UserSystem.AuthorizationServer.Providers
                 return;
             }
             catch(Exception e) { throw e; }
+        }
+
+        public override Task GrantAuthorizationCode(OAuthGrantAuthorizationCodeContext context)
+        {
+
+            var a = 123123;
+            return base.GrantAuthorizationCode(context);
+        }
+
+        public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
+        {
+            return base.GrantRefreshToken(context);
         }
     }
 }

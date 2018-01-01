@@ -34,7 +34,7 @@ namespace UserSystem.ResoureServer
             AutofacConfig.RegisterServices(builder);
 
             var container = builder.Build();
-
+        
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
                     
             WebApiConfig.Register(config);
@@ -58,7 +58,7 @@ namespace UserSystem.ResoureServer
 
             //显然如果颁发JWT的audience，这里的aud不一致的话
             //也是无法通过验证
-            var audience = "ngAuthApp";
+            var audience = "NativeApp";
 
             
             //显然如果颁发JWT的加密秘钥，与解密秘钥不一致的话，是无法进行JWT解密

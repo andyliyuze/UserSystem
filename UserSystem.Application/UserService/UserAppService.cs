@@ -11,20 +11,19 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using UserSystem.Data;
 
 namespace UserSystem.Application.UserService
 {
     public class UserAppService : IUserAppService
     {
         private readonly IUserRepository _userRepository;
-       
-        public UserAppService(IUserRepository userRepository)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UserAppService(IUserRepository userRepository, IUnitOfWork unitOfWork)
         {      
             _userRepository = userRepository;
-        }
-
-        public UserAppService()
-        {
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<string> Register(UserInput userInput)
@@ -68,15 +67,31 @@ namespace UserSystem.Application.UserService
             if (user == null) { return null; }
             
             var identity = await _userRepository.CreateClaimsIdentity(user, authenticationType);
-
-            var identitysCliams = user.Claims.Where(a => a.ClaimType == ClaimTypes.Role).ToList();
-            var claims = Mapper.Map<IEnumerable<Claim>>(identitysCliams);
-                       
-            identity.AddClaim(new Claim(ClaimTypes.Role, JsonConvert.SerializeObject(userInfo)));
+                               
+            identity.AddClaim(new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(userInfo)));
             
-            //identity.AddClaims(claims);
-
             return identity;
+        }
+
+        public async Task<string> UpdateUserInfo(string userId, UpdateUserInfoInput updateUserInfoInput)
+        {
+            if (updateUserInfoInput == null || string.IsNullOrWhiteSpace(updateUserInfoInput.UserName))
+            {
+                throw new ArgumentNullException("用户名不可为空");
+            }
+            var user = await _userRepository.FindUser(userId);
+
+            if (user == null)
+            {
+                throw new Exception("找不到User");
+            }
+
+            user.UpdateInfo(updateUserInfoInput.UserName, updateUserInfoInput.BirthDay,
+                updateUserInfoInput.Email);
+
+            await _unitOfWork.CommitAsync();
+
+            return user.Id;
         }
     }
 }

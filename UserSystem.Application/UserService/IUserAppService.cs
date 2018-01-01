@@ -29,5 +29,12 @@ namespace UserSystem.Application.UserService
         /// <param name="authenticationType">身份验证类型</param>
         /// <returns></returns>
         Task<ClaimsIdentity> TryLogin(string userName, string password, string authenticationType);
+
+        /// <summary>
+        /// 修改用户基本信息
+        /// </summary>
+        /// <param name="updateUserInfoInput"></param>
+        /// <returns>用户Id</returns>
+        Task<string> UpdateUserInfo(string UserId, UpdateUserInfoInput updateUserInfoInput);
     }
 }

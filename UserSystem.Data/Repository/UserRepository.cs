@@ -10,12 +10,12 @@ namespace UserSystem.Data.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private readonly IUnitOfWork _unitOfWork;
+      
 
         private readonly CustomUserManager _userManager;
+
         public UserRepository(IUnitOfWork unitOfWork, CustomUserManager userManager)
         {
-            _unitOfWork = unitOfWork;
             _userManager = userManager;
         }
 
@@ -51,7 +51,5 @@ namespace UserSystem.Data.Repository
             var user = await _userManager.FindAsync(userName, passWord);          
             return user;
         }
-
-
     }
 }

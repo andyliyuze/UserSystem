@@ -4,15 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserSystem.ResoureServer.Model
+namespace UserSystem.MessageContract
 {
     /// <summary>
-    /// 用户注册消息契约
+    /// 用户信息修改契约
     /// </summary>
-    public interface UserRegisted
+    public interface UserInfoUpdated
     {
         string Id { get; set; }
 
         string UserName { get; set; }
+
+        DateTime? BirthDay { get; set; }
+
+        string Email { get; set; }
     }
 }

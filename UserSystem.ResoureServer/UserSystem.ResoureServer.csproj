@@ -125,7 +125,6 @@
     <Compile Include="Attribute\CustomAuthorizeAttribute.cs" />
     <Compile Include="Controller\BaseApiController.cs" />
     <Compile Include="Controller\UserController.cs" />
-    <Compile Include="Model\UserRegisted.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -151,6 +150,13 @@
       <Project>{FF91899D-AFA9-460C-9CBF-107B1F8936F5}</Project>
       <Name>UserSystem.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UserSystem.MessageContract\UserSystem.MessageContract.csproj">
+      <Project>{e60b1761-9d58-4fc1-80ad-a3fb8323e7b6}</Project>
+      <Name>UserSystem.MessageContract</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

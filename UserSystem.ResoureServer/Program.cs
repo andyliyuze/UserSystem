@@ -11,15 +11,19 @@ namespace UserSystem.ResoureServer
     {
         static void Main(string[] args)
         {
-            const string uri = "http://localhost:40047/";
-            //
-            using (WebApp.Start<Startup>(uri))
+            try
             {
-                Console.WriteLine("Started listening on " + uri);
+                const string uri = "http://localhost:40047/";
+                //
+                using (WebApp.Start<Startup>(uri))
+                {
+                    Console.WriteLine("Started listening on " + uri);
+                    Console.ReadLine();
+                    Console.WriteLine("Shutting down...");
+                }
                 Console.ReadLine();
-                Console.WriteLine("Shutting down...");
             }
-            Console.ReadLine();
+            catch (Exception e){ throw e; }
         }
     }
 }

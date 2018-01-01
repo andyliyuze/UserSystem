@@ -11,7 +11,19 @@ namespace UserSystem.Core.Entity
 {
     public class User:IdentityUser
     {
-        public DateTime? BirthDay { get; set; }
+        public DateTime? Birthday { get; set; }
+
+        public void UpdateInfo(string userName,DateTime? birthday,string email)
+        {
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                throw new Exception("用户名不可为空");
+            }
+            
+            this.UserName = userName;
+            this.Birthday = birthday;
+            this.Email = email;
+        }
     }
     
 }

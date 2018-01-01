@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\UpdateUserInfoInput.cs" />
     <Compile Include="DTO\UserInput.cs" />
     <Compile Include="DTO\UserOutput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
