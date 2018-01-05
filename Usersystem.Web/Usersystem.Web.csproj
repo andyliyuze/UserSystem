@@ -79,6 +79,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Views\User\Login.cshtml" />
+    <None Include="说明\登录.vsdx" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
