@@ -11,7 +11,7 @@ namespace UserSystem.Infrastructure
     /// 返回统一结果
     /// </summary>
     /// <typeparam name="T">T是返回结果的类型</typeparam>
-  public  class WebApiResponse<T>
+    public class WebApiResponse<T>
     {
         /// <summary>
         /// 结果
@@ -20,10 +20,17 @@ namespace UserSystem.Infrastructure
         /// <summary>
         /// 错误代码
         /// </summary>
-        public WebApiStateCode ErrCode { get; set; }
+        public WebApiStatusCode StatusCode { get; set; }
         /// <summary>
         /// 提示信息
         /// </summary>
         public string Msg { get; set; }
+    }
+
+    public enum WebApiStatusCode
+    {
+        Success,
+        Failed,
+        Unauthorized
     }
 }

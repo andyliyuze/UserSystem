@@ -74,8 +74,6 @@ namespace UserSystem.AuthorizationServer.Providers
 
         public override Task GrantAuthorizationCode(OAuthGrantAuthorizationCodeContext context)
         {
-
-            var a = 123123;
             return base.GrantAuthorizationCode(context);
         }
 

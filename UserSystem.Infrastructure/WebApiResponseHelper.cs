@@ -18,22 +18,16 @@ namespace UserSystem.Infrastructure
             try
             {
                 var result = await function.Invoke();
-                var resp = new WebApiResponse<T>() { Result = result, ErrCode = WebApiStateCode.Success, Msg = "OK" };
+                var resp = new WebApiResponse<T>() { Result = result, StatusCode = WebApiStatusCode.Success, Msg = "OK" };
                 response = request.CreateResponse<WebApiResponse<T>>(HttpStatusCode.OK, resp);
             }
             catch (Exception ex)
             {
-                var resp = new WebApiResponse<string>() { Result = "", ErrCode = WebApiStateCode.Failed, Msg = JsonConvert.SerializeObject(ex) };
+                var resp = new WebApiResponse<string>() { Result = "", StatusCode = WebApiStatusCode.Failed, Msg = JsonConvert.SerializeObject(ex) };
                 response = request.CreateResponse<WebApiResponse<string>>(HttpStatusCode.OK, resp);
             }
 
             return response;
         }
-    }
-    
-    public enum WebApiStateCode
-    {
-        Success,
-        Failed
     }
 }
