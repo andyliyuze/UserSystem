@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserSystem.Infrastructure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserSystem.MessageContract", "UserSystem.MessageContract\UserSystem.MessageContract.csproj", "{E60B1761-9D58-4FC1-80AD-A3FB8323E7B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UseSystem.Web", "UseSystem.Web\UseSystem.Web.csproj", "{2AF7DB50-883F-4E73-95AC-E8713336A190}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Usersystem.Web", "Usersystem.Web\Usersystem.Web.csproj", "{8847FD56-9769-4B49-965D-346798296640}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserSystem.Web", "UserSystem.Web\UserSystem.Web.csproj", "{E917B8D3-DC80-4F79-A484-77925C92E59D}"
 EndProject
