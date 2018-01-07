@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Microsoft.AspNet.Identity;
+using UserSystem.Application.AppClientService;
 using UserSystem.Application.UserService;
 using UserSystem.Core.Entity;
 using UserSystem.Core.Repository;
@@ -24,8 +25,11 @@ namespace UserSystem.AuthorizationServer.App_Start
           
             builder.RegisterType<UserAppService>().As<IUserAppService>().InstancePerLifetimeScope(); 
 
-            builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope(); 
+            builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
 
+            builder.RegisterType<AppClientAppService>().As<IAppClientAppService>().InstancePerLifetimeScope();
+
+            builder.RegisterType<AppClientRepository>().As<IAppClientRepository>().InstancePerLifetimeScope();
         }
     }
 }

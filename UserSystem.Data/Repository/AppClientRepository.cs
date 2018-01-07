@@ -13,7 +13,6 @@ namespace UserSystem.Data.Repository
 
         public AppClientRepository(UserSystemContext userSystemContext)
         {
-            _unitOfWork = unitOfWork;
             _userSystemContext = userSystemContext;
         }
 

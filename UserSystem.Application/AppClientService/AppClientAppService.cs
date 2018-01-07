@@ -13,12 +13,12 @@ using UserSystem.Infrastructure;
 
 namespace UserSystem.Application.AppClientService
 {
-    public class AppClientService : IAppClientService
+    public class AppClientAppService : IAppClientAppService
     {
         private readonly IAppClientRepository  _appClientRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public AppClientService(IAppClientRepository appClientRepository, IUnitOfWork unitOfWork)
+        public AppClientAppService(IAppClientRepository appClientRepository, IUnitOfWork unitOfWork)
         {
             _appClientRepository = appClientRepository;
             _unitOfWork = unitOfWork;

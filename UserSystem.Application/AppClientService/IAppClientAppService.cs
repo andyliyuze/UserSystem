@@ -7,7 +7,7 @@ using UserSystem.Application.DTO;
 
 namespace UserSystem.Application.AppClientService
 {
-    public interface IAppClientService
+    public interface IAppClientAppService
     {
         Task<AppClinetOutput> Add(AppClinetInput appClinetInput);
     }

@@ -64,8 +64,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppClientService\AppClientService.cs" />
-    <Compile Include="AppClientService\IAppClientService.cs" />
+    <Compile Include="AppClientService\AppClientAppService.cs" />
+    <Compile Include="AppClientService\IAppClientAppService.cs" />
     <Compile Include="DTO\AppClinetInput.cs" />
     <Compile Include="DTO\AppClinetOutput.cs" />
     <Compile Include="DTO\UpdateUserInfoInput.cs" />

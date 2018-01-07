@@ -35,7 +35,7 @@ namespace UserSystem.Infrastructure
         }
 
         //转为16进制的字符串
-        public string ByteToHexStr(byte[] bytes)
+        static string ByteToHexStr(byte[] bytes)
         {
             string returnStr = "";
             if (bytes != null)
