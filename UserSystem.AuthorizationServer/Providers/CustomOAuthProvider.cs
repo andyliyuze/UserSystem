@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UserSystem.Application.UserService;
 using CommonServiceLocator;
+using System.Net;
 
 namespace UserSystem.AuthorizationServer.Providers
 {
     public class CustomOAuthProvider : OAuthAuthorizationServerProvider
     {
-        
+
 
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
@@ -29,6 +30,12 @@ namespace UserSystem.AuthorizationServer.Providers
                 return;
             }
 
+            var aud = context.Parameters.Get("aud");
+            if (aud != null)
+            {
+                context.OwinContext.Set<string>("as:aud", aud);
+            }
+
             context.Validated();
             return;
         }
@@ -42,12 +49,10 @@ namespace UserSystem.AuthorizationServer.Providers
 
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
 
-
             var service = ServiceLocator.Current.GetInstance<IUserAppService>();
 
             try
             {
-               
                 var identity = await service.TryLogin(context.UserName, context.Password, "JWT");
 
                 if (identity == null)
@@ -59,9 +64,13 @@ namespace UserSystem.AuthorizationServer.Providers
                 var props = new AuthenticationProperties(new Dictionary<string, string>
                 {
                     {
-                        "as:client_id", context.ClientId ??string.Empty                     },
+                        "as:client_id", context.ClientId ??string.Empty
+                    },
                     {
                         "userName", context.UserName
+                    },
+                    {
+                        "as:aud" , context.OwinContext.Get<string>("as:aud") ?? "any"
                     }
                 });
 
@@ -69,17 +78,30 @@ namespace UserSystem.AuthorizationServer.Providers
                 context.Validated(ticket);
                 return;
             }
-            catch(Exception e) { throw e; }
+            catch (Exception e) { throw e; }
         }
 
-        public override Task GrantAuthorizationCode(OAuthGrantAuthorizationCodeContext context)
+        public override Task TokenEndpoint(OAuthTokenEndpointContext context)
         {
-            return base.GrantAuthorizationCode(context);
+            return base.TokenEndpoint(context);
         }
 
-        public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
+
+
+        public override Task TokenEndpointResponse(OAuthTokenEndpointResponseContext context)
         {
-            return base.GrantRefreshToken(context);
+            context.Response.Cookies.Append("Cookies", "Bearer");
+            return base.TokenEndpointResponse(context);
         }
+
+        //public override Task GrantAuthorizationCode(OAuthGrantAuthorizationCodeContext context)
+        //{
+        //    return base.GrantAuthorizationCode(context);
+        //}
+
+        //public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
+        //{
+        //    return base.GrantRefreshToken(context);
+        //}
     }
 }

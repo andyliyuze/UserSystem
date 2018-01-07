@@ -58,10 +58,10 @@ namespace UserSystem.ResoureServer
 
             //显然如果颁发JWT的audience，这里的aud不一致的话
             //也是无法通过验证
-            var audience = "NativeApp";
+            var audience = "Fish";
 
-            
-            //显然如果颁发JWT的加密秘钥，与解密秘钥不一致的话，是无法进行JWT解密
+            //显然如果颁发JWT的加密秘钥，与解密秘钥不一致的话，得到的签名就会
+            //不一致，从而资源服务器会认为jwt被篡改
             //从而无法通过验证
             var secret = TextEncodings.Base64Url.Decode("IxrAjDoa2FqElO7IhrSrUJELhUckePEPVpaePlS_Xaw");
 
@@ -70,7 +70,7 @@ namespace UserSystem.ResoureServer
                 new JwtBearerAuthenticationOptions
                 {
                     AuthenticationMode = AuthenticationMode.Active,
-                    AllowedAudiences = new[] { audience },
+                    AllowedAudiences = new[] { audience,"any" } ,
                     IssuerSecurityTokenProviders = new IIssuerSecurityTokenProvider[]
                     {
                         new SymmetricKeyIssuerSecurityTokenProvider(issuer, secret)
@@ -83,16 +83,18 @@ namespace UserSystem.ResoureServer
         public void BusInit(IAppBuilder app , IContainer container)
         {
             //启动bus
-            var bus = container.Resolve<IBusControl>();
-            var busHandle = TaskUtil.Await(() => bus.StartAsync());
+          //  var bus = container.Resolve<IBusControl>();
+          //  CancellationToken cancellationToken = new CancellationToken();
+          //  cancellationToken.Register(()=>bus.Stop());
+          //var busHandle = TaskUtil.Await(() => bus.StartAsync(cancellationToken));
 
-            //当app stop时，bus销毁
-            var properties = new AppProperties(app.Properties);
+          //  //当app stop时，bus销毁
+          //  var properties = new AppProperties(app.Properties);
 
-            if (properties.OnAppDisposing != CancellationToken.None)
-            {
-                properties.OnAppDisposing.Register(() => busHandle.Stop(TimeSpan.FromSeconds(30)));
-            }
+          //  if (properties.OnAppDisposing != CancellationToken.None)
+          //  {
+          //      properties.OnAppDisposing.Register(() => busHandle.Stop(TimeSpan.FromSeconds(30)));
+          //  }
         }
     }
 }

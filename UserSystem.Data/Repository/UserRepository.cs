@@ -21,7 +21,7 @@ namespace UserSystem.Data.Repository
 
         public async Task<string> Register(User user , string password)
         {
-            await _userManager.CreateAsync(user, password);
+            await _userManager.CreateAsync(user, password);           
             return user.Id;
         }
 

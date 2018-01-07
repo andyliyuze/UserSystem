@@ -1,0 +1,124 @@
+﻿@model  UserSystem.Web.Models.LoginModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+     
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <style type="text/css">
+        .textBox {
+            outline: none;
+            margin: auto;
+            font-size: 1.5em;
+            padding: 25px 10px 25px 10px;
+            border: none;
+            font-family: 'Open Sans', sans-serif;
+            background: none;
+            border-bottom: 2px solid #eee;
+            width: 32%;
+            color: white;
+            font-weight: 600;
+            display: block;
+        }
+
+        body {
+            background-image: url('/Content/Image/bg.jpg');
+          
+            background-size: 100% 100%;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .submitButton {
+            background: url('/Content/Image/arrow.png')no-repeat 30% 45%;
+            height: 67px;
+            outline: none;
+            margin-top: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #fff;
+            width: 67px;
+            display: block;
+            margin: auto;
+            margin-top: 5%;
+        }
+
+        .header-w3l h1 {
+            margin-top: 100px;
+            margin-bottom: 100px;
+            font-size: 3.5em;
+            text-align: center;
+            color: white;
+            letter-spacing: 6px;
+            font-weight: 300;
+            font-family: 'Open Sans', sans-serif;
+            text-transform: uppercase;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="header-w3l">
+        <h1>Welcome to FishChat</h1>
+    </div>
+    <form id="loginform" action="/Users/Login" method="post" style="width: 50%;   margin: auto;margin-top:10%">
+        <div id="divLogin" class="login" style="margin: auto; width:100%; margin-top: 100px;">
+            
+            <input placeholder="Username" id="txtNickName" name="userName" type="text" value="@( Model == null ? null : Model.userName)" class="textBox" />
+          
+           
+            <input placeholder="Password" id="pwd" type="password" value="" name="password" class="textBox" />
+            @{
+                if (ViewBag.Message != null)
+                {
+                    <span style="display:block;    margin-top: 20px;text-align: center; display: block;">@ViewBag.Message</span>
+                }
+            }
+            <input id="btnStartChat" type="button" class="submitButton" value="" />
+            <input id="grantType" hidden="hidden" name="grant_type" />
+            <input id="clientId"  hidden="hidden" name="client_Id" />
+            <input id="returnUrl"  hidden="hidden" name="ReturnUrl" />
+        </div>
+
+    </form>
+    <script>
+        $("#btnStartChat").click(function () {
+            var clientId = getUrlParam("clientId");
+            var grantType = getUrlParam("grantType");
+            var returnUrl = getUrlParam("returnUrl");
+
+            $("#clientId").val(clientId);
+            $("#returnUrl").val(returnUrl);
+            $("#grantType").val(grantType); 
+
+            var form = $("#loginform");
+            $("#loginform").submit();
+      
+        });
+        $("input").focus(function () {
+
+        });
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
+    </script>
+
+</body>
+
+
+ 
+</html>

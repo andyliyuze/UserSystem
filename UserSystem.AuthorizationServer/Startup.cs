@@ -11,6 +11,7 @@ using Autofac.Integration.WebApi;
 using System.Reflection;
 using CommonServiceLocator;
 using Autofac.Extras.CommonServiceLocator;
+using Microsoft.Owin.Security.Cookies;
 
 namespace UserSystem.AuthorizationServer
 {
@@ -54,15 +55,17 @@ namespace UserSystem.AuthorizationServer
 
         private  void ConfigureOAuth(IAppBuilder app)
         {
-             
+
             OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
+               // AuthorizeEndpointPath =   PathString.FromUriComponent("http://localhost:56995/Users/Login"),
                 //For Dev enviroment only (on production should be AllowInsecureHttp = false)
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/oauth2/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
                 Provider = new CustomOAuthProvider(),
                 AccessTokenFormat = new CustomJwtFormat("http://jwtauthzsrv.azurewebsites.net")
+               
             };
 
             // OAuth 2.0 Bearer Access Token Generation

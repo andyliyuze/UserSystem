@@ -75,6 +75,7 @@ namespace UserSystem.Application.UserService
 
         public async Task<string> UpdateUserInfo(string userId, UpdateUserInfoInput updateUserInfoInput)
         {
+
             if (updateUserInfoInput == null || string.IsNullOrWhiteSpace(updateUserInfoInput.UserName))
             {
                 throw new ArgumentNullException("用户名不可为空");

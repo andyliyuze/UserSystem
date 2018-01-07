@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\AppClientConfiguration.cs" />
     <Compile Include="IDbContext.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -74,5 +75,6 @@
       <Name>UserSystem.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

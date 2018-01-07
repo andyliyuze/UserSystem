@@ -19,15 +19,13 @@ namespace UserSystem.ResoureServer.Controller
         private readonly IUserAppService _userAppService;
         private readonly WebApiResponseHelper _apiHelper;
         private readonly IPublishEndpoint _publishEndpoint;
-        private readonly IBusControl _sendEndpoint;
-        public UserController(IUserAppService userAppService , IPublishEndpoint publishEndpoint
-            , IBusControl sendEndpoint
-            )
+       
+        public UserController(IUserAppService userAppService,
+            IPublishEndpoint publishEndpoint)
         {
             _userAppService = userAppService;
             _apiHelper = new WebApiResponseHelper();
             _publishEndpoint = publishEndpoint;
-            _sendEndpoint = sendEndpoint;
         }
 
        // [CustomAuthorize(Roles = "User")]
@@ -83,15 +81,6 @@ namespace UserSystem.ResoureServer.Controller
                  return Id;
              });
         }
-
-
-        //[Route("login")]
-        //[HttpPost]
-        //public async Task<HttpResponseMessage> Login(HttpRequestMessage request, UserInput userInput)
-        //{
-
-
-        //}
 
     }
 }
