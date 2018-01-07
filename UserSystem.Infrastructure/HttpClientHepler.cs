@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http.ModelBinding;
 
 namespace UserSystem.Infrastructure
 {
-   public class HttpClientHepler
+    public class HttpClientHepler
     {
         private HttpClient _httpClient;
 

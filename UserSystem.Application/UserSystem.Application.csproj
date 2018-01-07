@@ -64,6 +64,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppClientService\AppClientService.cs" />
+    <Compile Include="AppClientService\IAppClientService.cs" />
+    <Compile Include="DTO\AppClinetInput.cs" />
+    <Compile Include="DTO\AppClinetOutput.cs" />
     <Compile Include="DTO\UpdateUserInfoInput.cs" />
     <Compile Include="DTO\UserInput.cs" />
     <Compile Include="DTO\UserOutput.cs" />
@@ -81,10 +85,15 @@
       <Project>{6B4C933B-3F4C-4148-8A1B-003A918BE1DE}</Project>
       <Name>UserSystem.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UserSystem.Infrastructure\UserSystem.Infrastructure.csproj">
+      <Project>{FF91899D-AFA9-460C-9CBF-107B1F8936F5}</Project>
+      <Name>UserSystem.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

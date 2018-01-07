@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserSystem.Core.Entity
+namespace UserSystem.Application.DTO
 {
-    public class AppClient
+    public class AppClinetOutput
     {
-        public AppClient()
-        {
-            this.ClientId = Guid.NewGuid().ToString();
-        }
-
-        public string ClientId { get; private set; }
+        public string ClientId { get; set; }
 
         public string ClientSecret { get; set; }
 

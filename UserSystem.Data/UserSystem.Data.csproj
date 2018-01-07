@@ -60,6 +60,7 @@
     <Compile Include="IDbContext.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Repository\AppClientRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
     <Compile Include="UserSystemContext.cs" />

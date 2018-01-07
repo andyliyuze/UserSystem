@@ -10,11 +10,9 @@ namespace UserSystem.Data.Repository
 {
     public class UserRepository : IUserRepository
     {
-      
-
         private readonly CustomUserManager _userManager;
 
-        public UserRepository(IUnitOfWork unitOfWork, CustomUserManager userManager)
+        public UserRepository(CustomUserManager userManager)
         {
             _userManager = userManager;
         }
