@@ -28,7 +28,7 @@ namespace UserSystem.Application.AppClientService
         {
             var  validUrlRegex = new Regex(@"^http(s) ?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?$");
 
-            if (validUrlRegex.IsMatch(appClinetInput.RetrunUrl.Trim()))
+            if (!validUrlRegex.IsMatch(appClinetInput.RetrunUrl.Trim()))
             {
                 throw new Exception("无效的url");
             }

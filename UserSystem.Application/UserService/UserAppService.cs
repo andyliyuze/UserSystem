@@ -4,13 +4,8 @@ using System.Threading.Tasks;
 using UserSystem.Application.DTO;
 using UserSystem.Core.Repository;
 using UserSystem.Core.Entity;
-using Microsoft.AspNet.Identity;
-using CommonServiceLocator;
 using System.Security.Claims;
 using Newtonsoft.Json;
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
 using UserSystem.Data;
 
 namespace UserSystem.Application.UserService

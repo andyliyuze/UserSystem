@@ -1,18 +1,15 @@
 ﻿using Autofac;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Autofac.Extras.CommonServiceLocator;
+using CommonServiceLocator;
 using UserSystem.AuthorizationServer.App_Start;
-
 namespace Application.Test
 {
-   public class TestBase
+    public class TestBase
     {
         public TestBase()
         {
             Init();
+        
         }
 
         private void Init()
@@ -23,6 +20,11 @@ namespace Application.Test
             AutofacConfig.RegisterServices(builder);
 
             var container = builder.Build();
+
+            ServiceLocator.SetLocatorProvider(() =>
+            {
+                return new AutofacServiceLocator(container);
+            });
 
             AutoMapperConfig.Register();
         }
