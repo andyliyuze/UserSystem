@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,9 +17,15 @@ namespace UserSystem.Data.Repository
             _userSystemContext = userSystemContext;
         }
 
-        public async Task<AppClient>  Add(AppClient appClient)
+        public AppClient Add(AppClient appClient)
         {
-            return await Task.Run<AppClient>(() => _userSystemContext.AppClient.Add(appClient));
+            return _userSystemContext.AppClient.Add(appClient);
+        }
+
+        public async Task<AppClient> Find(string Id)
+        {
+          return await _userSystemContext.AppClient
+                .FirstOrDefaultAsync(a => a.ClientId == Id);
         }
     }
 }

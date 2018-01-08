@@ -110,7 +110,7 @@
   <ItemGroup>
     <Compile Include="BusInitializer.cs" />
     <Compile Include="DictionaryFormatter.cs" />
-    <Compile Include="Hash256Encryption .cs" />
+    <Compile Include="Base64UrlFactory.cs" />
     <Compile Include="HttpClientHepler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebApiResponse.cs" />

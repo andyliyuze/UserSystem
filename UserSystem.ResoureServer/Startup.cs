@@ -15,6 +15,7 @@ using MassTransit;
 using MassTransit.Util;
 using System.Threading;
 using Microsoft.Owin.BuilderProperties;
+using System.Configuration;
 
 [assembly: OwinStartup(typeof(UserSystem.ResoureServer.Startup))]
 
@@ -63,7 +64,8 @@ namespace UserSystem.ResoureServer
             //显然如果颁发JWT的加密秘钥，与解密秘钥不一致的话，得到的签名就会
             //不一致，从而资源服务器会认为jwt被篡改
             //从而无法通过验证
-            var secret = TextEncodings.Base64Url.Decode("IxrAjDoa2FqElO7IhrSrUJELhUckePEPVpaePlS_Xaw");
+            string symmetricKeyAsBase64 = ConfigurationManager.AppSettings["JwtSecret"].ToString();
+            var secret = TextEncodings.Base64Url.Decode(symmetricKeyAsBase64);
 
             // Api controllers with an [Authorize] attribute will be validated with JWT
             app.UseJwtBearerAuthentication(

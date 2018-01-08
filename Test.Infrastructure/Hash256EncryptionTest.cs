@@ -10,7 +10,7 @@ namespace Test.Infrastructure
         [TestMethod]
         public void Test_Create()
         {
-            var encryption = new Hash256Encryption();
+            var encryption = new Base64UrlFactory();
             var result= encryption.Create("123456");
         }
     }

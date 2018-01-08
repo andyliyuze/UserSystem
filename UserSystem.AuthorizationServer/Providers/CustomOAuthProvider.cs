@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UserSystem.Application.UserService;
 using CommonServiceLocator;
 using System.Net;
+using UserSystem.Application.AppClientService;
 
 namespace UserSystem.AuthorizationServer.Providers
 {
@@ -30,12 +31,15 @@ namespace UserSystem.AuthorizationServer.Providers
                 return;
             }
 
-            var aud = context.Parameters.Get("aud");
-            if (aud != null)
+            var clientService = ServiceLocator.Current.GetInstance<IAppClientAppService>();
+            var client =await clientService.Find(context.ClientId);
+            if (client == null)
             {
-                context.OwinContext.Set<string>("as:aud", aud);
+                context.SetError("invalid_clientId");
+                return;
             }
 
+            context.OwinContext.Set<string>("as:aud", "any");
             context.Validated();
             return;
         }

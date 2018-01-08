@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CommonServiceLocator;
 using UserSystem.Application.AppClientService;
 using UserSystem.Application.DTO;
+using System.Threading.Tasks;
 
 namespace Application.Test
 {
@@ -17,10 +18,16 @@ namespace Application.Test
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public async Task Test_Add()
         {
             AppClinetInput input = new AppClinetInput() { ClientType = "Owner", RetrunUrl = "http://aaa.test.cam" };
-            _service.Add(input);
+            var output = await _service.Add(input);
+        }
+
+        [TestMethod]
+        public async Task Test_Find()
+        {
+            var output = await _service.Find("0ac30169-ec86-4cde-bbe4-cd3fd3680dd6");
         }
     }
 }

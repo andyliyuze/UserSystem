@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Microsoft.Owin.Security.DataHandler.Encoder;
+using System;
 using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace UserSystem.Infrastructure
 {
-    public class Hash256Encryption
+    public class Base64UrlFactory
     {
         public string Create(string value)
         {
             var enscrypt = ConfigurationManager.AppSettings["Sha256EncryptKey"].ToString();
-           
             string hash = Effortless.Net.Encryption.Hash
                 .Create(Effortless.Net.Encryption.HashType.SHA256,value , enscrypt, false);
             return hash;
@@ -23,14 +23,8 @@ namespace UserSystem.Infrastructure
             {
                 byte[] secretKeyByteArray = new byte[32]; //1byte=8bit 256 bit
                 cryptoProvider.GetBytes(secretKeyByteArray);
-                var base64String = ByteToHexStr(secretKeyByteArray);
-
-                var enscrypt = ConfigurationManager.AppSettings["Sha256EncryptKey"].ToString();
-
-                string hash = Effortless.Net.Encryption.Hash
-                .Create(Effortless.Net.Encryption.HashType.SHA256, base64String, enscrypt, false);
-
-                return hash;
+                var base64String = TextEncodings.Base64Url.Encode(secretKeyByteArray);
+                return base64String;
             }
         }
 

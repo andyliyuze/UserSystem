@@ -18,6 +18,8 @@ namespace UserSystem.AuthorizationServer.App_Start
                 .ConstructUsing(x => new Claim(x.ClaimType, x.ClaimValue))
                 .ForMember(d => d.Value, opt => opt.MapFrom(s => s.ClaimValue))
                 .ForMember(d => d.Type, opt => opt.MapFrom(s => s.ClaimType));
+
+                cfg.CreateMap<AppClient, AppClinetOutput>();
             });
         }
     }

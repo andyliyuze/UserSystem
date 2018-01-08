@@ -9,6 +9,8 @@ namespace UserSystem.Core.Repository
 {
     public interface IAppClientRepository
     {
-        Task<AppClient> Add(AppClient appClient);
+        AppClient Add(AppClient appClient);
+
+        Task<AppClient> Find(string Id);
     }
 }
