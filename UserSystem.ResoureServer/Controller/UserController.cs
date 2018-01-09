@@ -28,8 +28,8 @@ namespace UserSystem.ResoureServer.Controller
             _publishEndpoint = publishEndpoint;
         }
 
-       // [CustomAuthorize(Roles = "User")]
-        [AllowAnonymous]
+        // [CustomAuthorize(Roles = "User")]
+        [Route("get")]
         public string Get()
         {      
             var user = UserInfo;
