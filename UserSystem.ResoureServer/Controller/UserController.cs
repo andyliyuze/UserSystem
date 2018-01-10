@@ -29,10 +29,10 @@ namespace UserSystem.ResoureServer.Controller
         }
 
        // [CustomAuthorize(Roles = "User")]
-        [AllowAnonymous]
+      
+        [Route("get")]
         public string Get()
         {      
-            var user = UserInfo;
             return "value";
         }
 

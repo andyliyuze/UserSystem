@@ -21,13 +21,13 @@ namespace UserSystem.Web.Controllers
 
         [HttpPost]
         public async Task<ActionResult> Login(LoginModel loginModel)
-        {
+        { 
             var result = await HttpClientHepler.PostAysnc(_user_login_url, loginModel);
-
+           
             if (result.IsSuccessStatusCode == false || result.StatusCode == HttpStatusCode.Unauthorized)
             {
                 ViewBag.Message = "密码错误";
-                return Redirect(Request.UrlReferrer.OriginalString);
+                return  View("Login");
             }
 
             var loginResponse = await result.Content.ReadAsAsync<LoginResponse>();

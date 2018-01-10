@@ -51,5 +51,9 @@ namespace UserSystem.Application.AppClientService
             var client = await _appClientRepository.Find(Id);
             return Mapper.Map<AppClinetOutput>(client);
         }
+
+
+
+
     }
 }
