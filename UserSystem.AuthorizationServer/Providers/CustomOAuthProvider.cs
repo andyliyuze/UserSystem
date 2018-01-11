@@ -7,6 +7,8 @@ using UserSystem.Application.UserService;
 using CommonServiceLocator;
 using System.Net;
 using UserSystem.Application.AppClientService;
+using Microsoft.Owin;
+using UserSystem.Application.DTO;
 
 namespace UserSystem.AuthorizationServer.Providers
 {
@@ -44,26 +46,12 @@ namespace UserSystem.AuthorizationServer.Providers
                 return;
             }
 
-            if (context.Parameters["returnUrl"] != null)
+            if (!await MyValidateClientRedirectUri(client, context))
             {
-                var urlInput = context.Parameters["returnUrl"].ToString();
-
-                Uri uri;
-
-                var result = Uri.TryCreate(urlInput, UriKind.Absolute, out uri);
-
-                if (!result)
-                {
-                    context.SetError("invalid_returnUrl", "无效的地址");
-                }
-                if (new Uri(client.RetrunUrl).Host != new Uri(urlInput).Host)
-                {
-                    context.SetError("invalid_returnUrl", "无效的重定向地址，与注册时不一致");
-                }
-            }
-          
+                return;
+            };
             context.OwinContext.Set<string>("as:aud", "any");
-            context.Validated(context.ClientId);
+            context.Validated();
             return;
         }
 
@@ -108,76 +96,47 @@ namespace UserSystem.AuthorizationServer.Providers
             catch (Exception e) { throw e; }
         }
 
-        //public override Task TokenEndpoint(OAuthTokenEndpointContext context)
-        //{
-           
-        //    return base.TokenEndpoint(context);
-        //}
-
-
-
-        //public override Task TokenEndpointResponse(OAuthTokenEndpointResponseContext context)
-        //{
-          
-        //    return base.TokenEndpointResponse(context);
-        //}
-
-
-        public override async Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
+   
+        private async Task<bool> MyValidateClientRedirectUri(AppClinetOutput client, OAuthValidateClientAuthenticationContext context)
         {
-
-            string clientId = string.Empty;
-            string clientSecret = string.Empty;
+            var parms =await context.OwinContext.Request.ReadFormAsync();
+     
+            string redirect_uri = parms.Get("redirect_uri");
           
- 
-            
-
-            var service = ServiceLocator.Current.GetInstance<IAppClientAppService>();
-            var client = await service.Find(context.ClientId);
-
+            if (redirect_uri == null)
+            {             
+                return true;
+            }
+     
             if (client == null)
             {
                 context.SetError("invalid_clientId");
-                return;
+                return false;
             }
 
             Uri clientUri;
             if (!Uri.TryCreate(client.RetrunUrl, UriKind.Absolute, out clientUri))
             {
-                context.SetError("can't set a RedirectUri","数据库无url");
-                return;
+                return true;
             }
 
             Uri uri;
-            if (!Uri.TryCreate(context.RedirectUri, UriKind.Absolute, out uri))
+            if (!Uri.TryCreate(redirect_uri, UriKind.Absolute, out uri)
+                || uri.Scheme.ToLower() != "http"
+                || uri.Scheme.ToLower() != "https")
             {
                 context.SetError("invalid_RedirectUri");
-                return;
+                return false;
             }
 
             if (uri.Host != clientUri.Host)
             {
                 context.SetError("invalid_RedirectUri", "与数据库url不一致");
+                return false;
             }
-
-            context.Validated(context.RedirectUri);
-            return;
+            context.Validated();
+            return  true;
         }
-
-
-        public override Task AuthorizeEndpoint(OAuthAuthorizeEndpointContext context)
-        {
-           
-            return base.AuthorizeEndpoint(context);
-        }
-
-        public override  async Task MatchEndpoint(OAuthMatchEndpointContext context)
-        {
-            context.MatchesAuthorizeEndpoint();
-            return;
-           // return base.MatchEndpoint(context);
-        }
-
-       
+     
     }
 }
