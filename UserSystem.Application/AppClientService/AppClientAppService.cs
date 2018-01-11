@@ -26,13 +26,11 @@ namespace UserSystem.Application.AppClientService
 
         public async Task<AppClinetOutput> Add(AppClinetInput appClinetInput)
         {
-            var validUrlRegex = new Regex(@"((http|ftp|https)://)(([a-zA-Z0-9\._-]+\.[a-zA-Z]{2,6})|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,4})*(/[a-zA-Z0-9\&%_\./-~-]*)?");
-
-            if (!validUrlRegex.IsMatch(appClinetInput.RetrunUrl.Trim()))
+            if (!UrlChecker.CheckIsValid(appClinetInput.RetrunUrl,UriHostNameType.Dns))
             {
-                throw new Exception("无效的url");
+                return null;
             }
-
+       
             AppClient appClient = new AppClient()
             {
                 ClientSecret = Base64UrlFactory.Create(),

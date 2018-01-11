@@ -86,7 +86,7 @@
       <Name>UserSystem.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\UserSystem.Infrastructure\UserSystem.Infrastructure.csproj">
-      <Project>{FF91899D-AFA9-460C-9CBF-107B1F8936F5}</Project>
+      <Project>{ff91899d-afa9-460c-9cbf-107b1f8936f5}</Project>
       <Name>UserSystem.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>

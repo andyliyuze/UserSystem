@@ -85,18 +85,18 @@ namespace UserSystem.ResoureServer
         public void BusInit(IAppBuilder app , IContainer container)
         {
             //启动bus
-          //  var bus = container.Resolve<IBusControl>();
-          //  CancellationToken cancellationToken = new CancellationToken();
-          //  cancellationToken.Register(()=>bus.Stop());
-          //var busHandle = TaskUtil.Await(() => bus.StartAsync(cancellationToken));
+            var bus = container.Resolve<IBusControl>();
+            CancellationToken cancellationToken = new CancellationToken();
+            cancellationToken.Register(() => bus.Stop());
+            var busHandle = TaskUtil.Await(() => bus.StartAsync(cancellationToken));
 
-          //  //当app stop时，bus销毁
-          //  var properties = new AppProperties(app.Properties);
+            //当app stop时，bus销毁
+            var properties = new AppProperties(app.Properties);
 
-          //  if (properties.OnAppDisposing != CancellationToken.None)
-          //  {
-          //      properties.OnAppDisposing.Register(() => busHandle.Stop(TimeSpan.FromSeconds(30)));
-          //  }
+            if (properties.OnAppDisposing != CancellationToken.None)
+            {
+                properties.OnAppDisposing.Register(() => busHandle.Stop(TimeSpan.FromSeconds(30)));
+            }
         }
     }
 }

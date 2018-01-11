@@ -12,6 +12,7 @@ using System.Reflection;
 using CommonServiceLocator;
 using Autofac.Extras.CommonServiceLocator;
 using Microsoft.Owin.Security.Cookies;
+using System.Threading.Tasks;
 
 namespace UserSystem.AuthorizationServer
 {
@@ -58,12 +59,12 @@ namespace UserSystem.AuthorizationServer
 
             OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
-               // AuthorizeEndpointPath =   PathString.FromUriComponent("http://localhost:56995/Users/Login"),
+                AuthorizeEndpointPath = PathString.FromUriComponent("/Authorize"),
                 //For Dev enviroment only (on production should be AllowInsecureHttp = false)
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/oauth2/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
-                Provider = new CustomOAuthProvider(),
+                Provider = new CustomOAuthProvider()  ,
                 AccessTokenFormat = new CustomJwtFormat("http://jwtauthzsrv.azurewebsites.net")
                
             };
@@ -72,5 +73,8 @@ namespace UserSystem.AuthorizationServer
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
 
         }
+
+
+      
     }
 }

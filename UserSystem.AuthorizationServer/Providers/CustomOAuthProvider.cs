@@ -13,6 +13,12 @@ namespace UserSystem.AuthorizationServer.Providers
     public class CustomOAuthProvider : OAuthAuthorizationServerProvider
     {
 
+        private  IAppClientAppService clientService;
+
+        public CustomOAuthProvider()
+        {
+            clientService = ServiceLocator.Current.GetInstance<IAppClientAppService>();
+        }
 
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
@@ -31,7 +37,6 @@ namespace UserSystem.AuthorizationServer.Providers
                 return;
             }
 
-            var clientService = ServiceLocator.Current.GetInstance<IAppClientAppService>();
             var client =await clientService.Find(context.ClientId);
             if (client == null)
             {
@@ -39,8 +44,26 @@ namespace UserSystem.AuthorizationServer.Providers
                 return;
             }
 
+            if (context.Parameters["returnUrl"] != null)
+            {
+                var urlInput = context.Parameters["returnUrl"].ToString();
+
+                Uri uri;
+
+                var result = Uri.TryCreate(urlInput, UriKind.Absolute, out uri);
+
+                if (!result)
+                {
+                    context.SetError("invalid_returnUrl", "无效的地址");
+                }
+                if (new Uri(client.RetrunUrl).Host != new Uri(urlInput).Host)
+                {
+                    context.SetError("invalid_returnUrl", "无效的重定向地址，与注册时不一致");
+                }
+            }
+          
             context.OwinContext.Set<string>("as:aud", "any");
-            context.Validated();
+            context.Validated(context.ClientId);
             return;
         }
 
@@ -85,27 +108,76 @@ namespace UserSystem.AuthorizationServer.Providers
             catch (Exception e) { throw e; }
         }
 
-        public override Task TokenEndpoint(OAuthTokenEndpointContext context)
+        //public override Task TokenEndpoint(OAuthTokenEndpointContext context)
+        //{
+           
+        //    return base.TokenEndpoint(context);
+        //}
+
+
+
+        //public override Task TokenEndpointResponse(OAuthTokenEndpointResponseContext context)
+        //{
+          
+        //    return base.TokenEndpointResponse(context);
+        //}
+
+
+        public override async Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
         {
-            return base.TokenEndpoint(context);
+
+            string clientId = string.Empty;
+            string clientSecret = string.Empty;
+          
+ 
+            
+
+            var service = ServiceLocator.Current.GetInstance<IAppClientAppService>();
+            var client = await service.Find(context.ClientId);
+
+            if (client == null)
+            {
+                context.SetError("invalid_clientId");
+                return;
+            }
+
+            Uri clientUri;
+            if (!Uri.TryCreate(client.RetrunUrl, UriKind.Absolute, out clientUri))
+            {
+                context.SetError("can't set a RedirectUri","数据库无url");
+                return;
+            }
+
+            Uri uri;
+            if (!Uri.TryCreate(context.RedirectUri, UriKind.Absolute, out uri))
+            {
+                context.SetError("invalid_RedirectUri");
+                return;
+            }
+
+            if (uri.Host != clientUri.Host)
+            {
+                context.SetError("invalid_RedirectUri", "与数据库url不一致");
+            }
+
+            context.Validated(context.RedirectUri);
+            return;
         }
 
 
-
-        public override Task TokenEndpointResponse(OAuthTokenEndpointResponseContext context)
+        public override Task AuthorizeEndpoint(OAuthAuthorizeEndpointContext context)
         {
-            context.Response.Cookies.Append("Cookies", "Bearer");
-            return base.TokenEndpointResponse(context);
+           
+            return base.AuthorizeEndpoint(context);
         }
 
-        //public override Task GrantAuthorizationCode(OAuthGrantAuthorizationCodeContext context)
-        //{
-        //    return base.GrantAuthorizationCode(context);
-        //}
+        public override  async Task MatchEndpoint(OAuthMatchEndpointContext context)
+        {
+            context.MatchesAuthorizeEndpoint();
+            return;
+           // return base.MatchEndpoint(context);
+        }
 
-        //public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
-        //{
-        //    return base.GrantRefreshToken(context);
-        //}
+       
     }
 }

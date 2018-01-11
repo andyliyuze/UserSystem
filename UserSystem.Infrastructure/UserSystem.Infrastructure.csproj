@@ -113,6 +113,7 @@
     <Compile Include="Base64UrlFactory.cs" />
     <Compile Include="HttpClientHepler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UrlChecker.cs" />
     <Compile Include="WebApiResponse.cs" />
     <Compile Include="WebApiResponseHelper.cs" />
   </ItemGroup>
