@@ -39,7 +39,7 @@ namespace UserSystem.Web.Controllers
             Response.SetCookie(cookie);
 
 
-            return Redirect(Request.Form["returnUrl"].ToString());
+            return Redirect(Request.Form["redirect_uri"].ToString());
 
         }
 

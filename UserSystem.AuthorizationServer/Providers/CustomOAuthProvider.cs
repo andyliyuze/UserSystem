@@ -122,8 +122,8 @@ namespace UserSystem.AuthorizationServer.Providers
 
             Uri uri;
             if (!Uri.TryCreate(redirect_uri, UriKind.Absolute, out uri)
-                || uri.Scheme.ToLower() != "http"
-                || uri.Scheme.ToLower() != "https")
+                ||( uri.Scheme.ToLower() != "http"
+                &&uri.Scheme.ToLower() != "https"))
             {
                 context.SetError("invalid_RedirectUri");
                 return false;
