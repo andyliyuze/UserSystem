@@ -89,15 +89,15 @@
             <input id="btnStartChat" type="button" class="submitButton" value="" />
             <input id="grantType" hidden="hidden" name="grant_type" />  
             <input id="clientId"  hidden="hidden" name="client_Id" />
-            <input id="returnUrl"  hidden="hidden" name="ReturnUrl" />
+            <input id="returnUrl"  hidden="hidden" name="redirect_uri" />
         </div>
 
     </form>
     <script>
         $("#btnStartChat").click(function () {
-            var clientId = getUrlParam("clientId");
-            var grantType = getUrlParam("grantType");
-            var returnUrl = getUrlParam("returnUrl");
+            var clientId = getUrlParam("client_Id");
+            var grantType = getUrlParam("grant_type");
+            var returnUrl = getUrlParam("redirect_uri");
 
             $("#clientId").val(clientId);
             $("#returnUrl").val(returnUrl);

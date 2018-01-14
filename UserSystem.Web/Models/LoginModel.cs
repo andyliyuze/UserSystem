@@ -14,5 +14,7 @@ namespace UserSystem.Web.Models
         public string client_Id { get; set; }
 
         public string grant_type { get; set; }
+
+        public string redirect_uri { get; set; }
     }
 }

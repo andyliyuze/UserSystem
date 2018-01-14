@@ -38,6 +38,7 @@ namespace UserSystem.Web.Controllers
             };
             Response.SetCookie(cookie);
 
+
             return Redirect(Request.Form["returnUrl"].ToString());
 
         }
