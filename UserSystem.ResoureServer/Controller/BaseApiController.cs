@@ -14,8 +14,7 @@ namespace UserSystem.ResoureServer.Controller
     {
         public BaseApiController()
         {
-            var identity = User.Identity as ClaimsIdentity;
-         
+            var identity = User.Identity as ClaimsIdentity;       
         }
 
         /// <summary>
