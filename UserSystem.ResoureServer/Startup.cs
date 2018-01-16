@@ -47,6 +47,7 @@ namespace UserSystem.ResoureServer
             BusInit(app, container);
 
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+
             app.UseWebApi(config);
 
         }
@@ -88,7 +89,7 @@ namespace UserSystem.ResoureServer
             var bus = container.Resolve<IBusControl>();
             CancellationToken cancellationToken = new CancellationToken();
             cancellationToken.Register(() => bus.Stop());
-            var busHandle = TaskUtil.Await(() => bus.StartAsync(cancellationToken));
+            var busHandle = TaskUtil.Await(() => bus.StartAsync());
 
             //当app stop时，bus销毁
             var properties = new AppProperties(app.Properties);

@@ -13,7 +13,7 @@ namespace UserSystem.ResoureServer
         {
             try
             {
-                const string uri = "http://10.2.27.81:40047/";
+                const string uri = "http://localhost:40047/";
                 //
                 using (WebApp.Start<Startup>(uri))
                 {
