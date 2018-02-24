@@ -8,7 +8,7 @@
 ### 2.OAuth2 进行身份验证，授权服务
 ### 3.基于Jwt令牌颁发
 ### 4.基于DDD
-
+### 5.使用RabbitMQ与Masstransit发布消息
 
 ## 功能
 
